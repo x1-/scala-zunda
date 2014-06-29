@@ -1,0 +1,47 @@
+apply plugin: 'scala'
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+version = '1.0'
+
+repositories {
+  mavenCentral()
+  maven {
+    url "http://oss.sonatype.org/content/repositories/releases"
+  }
+}
+
+ext {
+  scalaVersion = '2.11'
+  scalaVersionRevision = '0'
+  junitVersion = '4.11'
+  scalaTestVersion = '2.2.0'
+  scalaCheckVersion = '1.11.4'
+}
+
+configurations {
+  scalaLibrary
+  scalaCompiler
+}
+
+dependencies {
+  scalaLibrary "org.scala-lang:scala-library:$scalaVersion.$scalaVersionRevision"
+  scalaCompiler "org.scala-lang:scala-compiler:$scalaVersion.$scalaVersionRevision"
+
+  compile "org.scala-lang:scala-library:$scalaVersion.$scalaVersionRevision"
+
+  testCompile "junit:junit:$junitVersion"
+  testCompile "org.scalatest:scalatest_$scalaVersion:$scalaTestVersion"
+  testCompile "org.scalacheck:scalacheck:$scalaCheckVersion"
+}
+
+tasks.withType(ScalaCompile) {
+  scalaCompileOptions.useCompileDaemon = false
+  scalaCompileOptions.useAnt = false
+
+  configure(scalaCompileOptions.forkOptions) {
+    memoryMaximumSize = '1g'
+    jvmArgs = ['-XX:MaxPermSize=512m']
+  }
+}
