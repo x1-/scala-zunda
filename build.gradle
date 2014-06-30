@@ -33,7 +33,7 @@ dependencies {
 
   testCompile "junit:junit:$junitVersion"
   testCompile "org.scalatest:scalatest_$scalaVersion:$scalaTestVersion"
-  testCompile "org.scalacheck:scalacheck:$scalaCheckVersion"
+  testCompile "org.scalacheck:scalacheck_$scalaVersion:$scalaCheckVersion"
 }
 
 tasks.withType(ScalaCompile) {
