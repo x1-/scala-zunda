@@ -41,16 +41,27 @@ object Main extends App {
       |""".stripMargin
 
   val keyword = "#EVENT"
+  val re = """\s+.*""".r
   val lines = test.split( '\n' )
   val events = lines.filter( _.startsWith( keyword ) ).map { l =>
     val ev = l.replace( keyword, "" ).split( """[\s]+""" )
     Modality( ev(1).toInt, ev(2), ev(3), ev(4), ev(5), ev(6), ev(7) )
   }
 
-  events.foreach { l =>
-    println( "-------------------------" )
-    println( l.pos )
-    println( l.truth )
+  val lines2 = test.split( """\* [0-9]+[^\n]+\n""" )
+  val lines3 = for {
+    l <- lines2
+  } yield {
+    l.split( '\n' )
+     .filter( _.length > 0 )
+     .map { a =>
+       val r = re.replaceAllIn( a, "" )
+       println( s"[${r}]" )
+     }
   }
+//  lines2.foreach { l =>
+//    println( "-------------------------" )
+//    println( l )
+//  }
 
 }
